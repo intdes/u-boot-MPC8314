@@ -350,3 +350,20 @@ void putc(char c)
 }
 
 #endif /* CONFIG_NAND_SPL */
+
+
+#define TOBOOL(x)	(((x)!=0)?1:0)
+#define NOT(x)		(((x)==0)?1:0)
+#define BIT(x)		(1<<(x))
+#define BUTTON_INPUT	0x01000000
+
+#ifdef NEXIS_CONSOLE
+
+int console_enabled( void )
+{
+	volatile immap_t *immr = (volatile immap_t *)CONFIG_SYS_IMMR;
+
+	return ( NOT(TOBOOL(( immr->gpio[0].dat & BUTTON_INPUT ) != 0 )) );
+}
+#endif
+

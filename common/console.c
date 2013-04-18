@@ -293,6 +293,11 @@ int fprintf(int file, const char *fmt, ...)
 
 int getc(void)
 {
+#ifdef CONFIG_SILENT_CONSOLE
+	if (gd->flags & GD_FLG_SILENT)
+		return 0;
+#endif
+
 #ifdef CONFIG_DISABLE_CONSOLE
 	if (gd->flags & GD_FLG_DISABLE_CONSOLE)
 		return 0;
@@ -519,16 +524,23 @@ int console_assign(int file, char *devname)
 	return -1;
 }
 
+int console_enabled( void );
+
 /* Called before relocation - use serial functions */
 int console_init_f(void)
 {
+	int ret;
 	gd->have_console = 1;
 
 #ifdef CONFIG_SILENT_CONSOLE
 	if (getenv("silent") != NULL)
 		gd->flags |= GD_FLG_SILENT;
 #endif
-
+#ifdef NEXIS_CONSOLE
+	if (console_enabled() == 0 )
+		gd->flags |= GD_FLG_DISABLE_CONSOLE;
+	
+#endif
 	return 0;
 }
 

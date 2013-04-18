@@ -239,6 +239,7 @@ int	checkdram     (void);
 int	last_stage_init(void);
 extern ulong monitor_flash_len;
 int mac_read_from_eeprom(void);
+int console_enabled(void);
 
 /* common/flash.c */
 void flash_perror (int);
