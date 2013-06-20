@@ -679,17 +679,28 @@
    ""
 
 #define CONFIG_NFSBOOTCOMMAND						\
-   "setenv bootargs root=/dev/nfs rw "					\
-      "nfsroot=$serverip:$rootpath "					\
-      "ip=$ipaddr:$serverip:$gatewayip:$netmask:$hostname:$netdev:off " \
-      "console=$consoledev,$baudrate $othbootargs;"			\
+   "if test ${console_enabled} = yes; then " \
+	   "setenv bootargs root=/dev/nfs rw "					\
+		  "nfsroot=$serverip:$rootpath "					\
+		  "ip=$ipaddr:$serverip:$gatewayip:$netmask:$hostname:$netdev:off " \
+		  "console=$consoledev,$baudrate $othbootargs;"			\
+	"else " \
+	   "setenv bootargs root=/dev/nfs rw "					\
+		  "nfsroot=$serverip:$rootpath "					\
+		  "ip=$ipaddr:$serverip:$gatewayip:$netmask:$hostname:$netdev:off " \
+	"fi; " \
    "tftp $loadaddr $bootfile;"						\
    "tftp $fdtaddr $fdtfile;"						\
    "bootm $loadaddr - $fdtaddr"
 
 #define CONFIG_RAMBOOTCOMMAND						\
-   "setenv bootargs root=/dev/ram rw "					\
-      "console=$consoledev,$baudrate $othbootargs;"			\
+   "if test ${console_enabled} = yes; then " \
+	   "setenv bootargs root=/dev/ram rw "					\
+    	  "console=$consoledev,$baudrate $othbootargs;"			\
+	"else " \
+	   "setenv bootargs root=/dev/ram rw "					\
+    	  "$othbootargs;"			\
+	"fi; " \
    "tftp $ramdiskaddr $ramdiskfile;"					\
    "tftp $loadaddr $bootfile;"						\
    "tftp $fdtaddr $fdtfile;"						\

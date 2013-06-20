@@ -538,7 +538,14 @@ int console_init_f(void)
 #endif
 #ifdef NEXIS_CONSOLE
 	if (console_enabled() == 0 )
+	{
+		set_local_var( "console_enabled=no", 0 );
 		gd->flags |= GD_FLG_DISABLE_CONSOLE;
+	}
+	else
+	{
+		set_local_var( "console_enabled=yes", 0 );
+	}
 	
 #endif
 	return 0;
