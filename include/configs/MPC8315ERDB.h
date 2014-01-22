@@ -102,6 +102,11 @@
 #define CONFIG_BOARD_EARLY_INIT_F /* call board_pre_init */
 #define CONFIG_HWCONFIG
 
+/* GPIOs.  Configure used CAN pins */
+#define CONFIG_SYS_GPIO1_PRELIM
+#define CONFIG_SYS_GPIO1_DIR            0xD0000000  
+#define CONFIG_SYS_GPIO1_DAT            0x50000000  
+
 /*
  * IMMR new address
  */
